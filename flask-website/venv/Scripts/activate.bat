@@ -1,6 +1,6 @@
 @echo off
 
-set "VIRTUAL_ENV=D:\!Learn\DataBase\site\venv"
+set "VIRTUAL_ENV=D:\.Git\databaseKurs\flask-website\venv"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
