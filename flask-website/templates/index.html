@@ -16,7 +16,7 @@
 					<a class="nav-link" href="#">О нас</a>
 				  </li>
 				</ul>
-				<a class="nav-link" href="#">Войти</a>
+				<a class="nav-link" href="/login">Войти</a>
 			  </div>
 	</nav>
 
@@ -38,7 +38,7 @@
 			<div class="col">
 				<div class="form-group">
 					<label for="dateStartField">Дата въезда</label><br>
-					<input type="password" class="form-control" id="dateStartField" placeholder="Введите дату въезда">
+					<input type="date" class="form-control" id="dateStartField">
 				</div>
 			</div>
 		</div>
@@ -47,7 +47,7 @@
 				<div class="col">
 					<div class="form-group">
 						<label for="dateEndField">Дата отъезда</label><br>
-						<input type="password" class="form-control" id="dateEndField" placeholder="Введите дату отъезда">
+						<input type="date" class="form-control" id="dateEndField">
 					</div>
 				</div>
 		</div>
@@ -69,12 +69,17 @@
 		<div class="row">
 				<div class="col">
 					<div class="form-group">
-						<label for="dateEndField">Количество человек</label><br>
-						<input type="password" class="form-control" id="dateEndField" placeholder="Введите количество человек">
+						<label for="amountField">Количество человек</label><br>
+						<input type="number" class="form-control" id="amountField" placeholder="Введите количество человек">
 					</div>
 				</div>
 		</div>
+		<div class="row">
+			<div class="col">
+				<h5>Сумма: 1000 руб</h5>
+			</div>
 
+		</div>
 		<div class="row">
 			<div class="col">
 				<button type="submit" class="btn btn-block btn-primary">Купить билет</button>

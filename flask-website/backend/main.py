@@ -13,7 +13,6 @@ def index():
 
 @app.route('/list/')
 def list_rooms():
-    abort(401)
     return render_template('listRooms.html')
 
 
@@ -27,9 +26,14 @@ def journal():
     return render_template('journal.html')
 
 
+@app.route('/login/')
+def login():
+    return render_template('login.html')
+
+
 @app.errorhandler(404)
 def page_not_found(error):
-    return "Такой страницы нет", 404
+    return "Error 404. Такой страницы нет", 404
 
 
 @app.errorhandler(401)

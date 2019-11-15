@@ -2,11 +2,24 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">Пансионат "Ласточка"</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav mr-auto">
+				  <li class="nav-item active">
+					<a class="nav-link" href="#">О нас</a>
+				  </li>
+				</ul>
+
+			  </div>
+	</nav>
 	<title>Авторизиция</title>
 </head>
 <body>
 	<div class="container">
-		<h1>Пансионат "Ласточка"</h1>
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-7">
@@ -19,7 +32,7 @@
 			<div class="col">
 				<div class="form-group">
 					<label for="loginField">Логин</label>
-					<input type="text" class="form-contol" id="loginField" placeholder="Введите логин">
+					<input type="text" class="form-control" id="loginField" placeholder="Введите логин">
 				</div>
 			</div>
 		</div>
@@ -27,13 +40,18 @@
 			<div class="col">
 				<div class="form-group">
 					<label for="passField">Пароль</label>
-					<input type="password" class="form-contol" id="passField" placeholder="Введите пароль">
+					<input type="password" class="form-control" id="passField" placeholder="Введите пароль">
 				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<button type="submit" class="btn-primary btn-block">Войти</button>
+			<div class="col">
+			<button type="submit" class="btn btn-block btn-primary">Зарегистрироваться</button>
+			</div>
+			<div class="col">
+			<button type="submit" class="btn btn-block btn-primary">Войти</button>
+			</div>
 		</div>
 	</form>
 
