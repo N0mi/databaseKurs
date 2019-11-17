@@ -3,6 +3,12 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<title>Админ. панель</title>
+	<script>
+			function exit() {
+				alert("Выход!");
+			}
+			 
+	</script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -19,12 +25,104 @@
 							<a class="nav-link" href="#">Журнал</a>
 					  </li>
 					</ul>
-					<a class="nav-link" href="#">Войти</a>
+					<a class="nav-link" href="#">Имя</a>
+					<button class="btn btn-link" onclick="exit()"><img src="images/login.png" alt="выход"></button>		
 				  </div>
 	</nav>
-	<div class="container">
+	<div class="container-fluid">
 		<h1>Панель администратора</h1>
-		<h5>Все таблицы.</h5>
+		<div class="btn-group btn-group-toggle" data-toggle="buttons">
+				<label class="btn btn-primary active">
+				  <input type="radio" name="options" id="option1" autocomplete="off" checked> Пансионат
+				</label>
+				<label class="btn btn-primary">
+				  <input type="radio" name="options" id="option2" autocomplete="off"> Аккаунты
+				</label>
+			  </div>
+		<!-- Таблица номеров -->
+		<div class="row">
+			<div class="col-sm">
+					<h3>Номера</h3>
+					<table class="table table-bordered">
+							<thead class="thead-light">
+							  <tr>
+								<th scope="col">#</th>
+								<th scope="col">Номер комнаты</th>
+								<th scope="col">Корпус</th>
+								<th scope="col">Тип комнаты</th>
+								<th scope="col">Статус комнаты</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<th scope="row">1</th>
+								<td>10</td>
+								<td>Б</td>
+								<td>Люкс</td>
+								<td>
+									Занят
+									<a onclick="exit()"><img src="images/pencil.png" alt="выход"></a>
+									<a onclick="exit()"><img src="images/trash.png" alt="выход"></a>	
+								</td>
+								
+							  </tr>
+							</tbody>
+						  </table>
+			</div>
+			<!-- Таблица корпусов -->
+			<div class="col-sm">
+					<h3>Корпуса</h3>
+					<table class="table table-bordered">
+							<thead class="thead-light">
+							  <tr>
+								<th scope="col">#</th>
+								<th scope="col">Название корпуса</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<th scope="row">1</th>
+								<td>А</td>
+							  </tr>
+							</tbody>
+						  </table>
+			</div>
+			<!-- Таблица статусов -->
+			<div class="col-sm">
+					<h3>Статусы</h3>
+					<table class="table table-bordered">
+							<thead class="thead-light">
+							  <tr>
+								<th scope="col">#</th>
+								<th scope="col">Название статуса</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<th scope="row">1</th>
+								<td>Свободно</td>
+							  </tr>
+							</tbody>
+						  </table>
+			</div>
+			<!-- Таблица типов номеров -->
+			<div class="col-sm">
+					<h3>Типы номеров</h3>
+					<table class="table table-bordered">
+							<thead class="thead-light">
+							  <tr>
+								<th scope="col">#</th>
+								<th scope="col">Тип</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<th scope="row">1</th>
+								<td>Люкс</td>
+							  </tr>
+							</tbody>
+						  </table>
+			</div>		
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
