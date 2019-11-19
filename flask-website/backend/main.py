@@ -2,8 +2,17 @@ from flask import Flask, render_template, abort, redirect, url_for, session
 import dbcontroller as dbc
 import os
 
+class CustomFlask(Flask):
+    jinja_options = Flask.jinja_options.copy()
+    jinja_options.update(dict(
+        variable_start_string='%%',  # Default is '{{', I'm changing this because Vue.js uses '{{' / '}}'
+        variable_end_string='%%',
+    ))
+
+
 template_dir = os.path.abspath('../templates/')
-app = Flask(__name__, template_folder=template_dir)
+app = CustomFlask(__name__, template_folder=template_dir)
+app._static_folder = os.path.abspath('../static')
 
 
 @app.route('/')
@@ -11,14 +20,9 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/list/')
-def list_rooms():
-    return render_template('listRooms.html')
-
-
-@app.route('/request/')
-def request():
-    return render_template('requestTicket.html')
+@app.route('/admin/')
+def adPanel():
+    return render_template('adminPanel.html')
 
 
 @app.route('/journal/')
@@ -33,7 +37,8 @@ def login():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return "Error 404. Такой страницы нет", 404
+    return render_template('error404.html'), 404
+    # return "Error 404. Такой страницы нет", 404
 
 
 @app.errorhandler(401)
