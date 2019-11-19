@@ -2,9 +2,17 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 	<title>Админ. панель</title>
+	<script>
+			function exit() {
+				alert("Выход!");
+			}
+			 
+	</script>
 </head>
 <body>
+	<div id="app">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">Пансионат "Ласточка"</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,14 +27,180 @@
 							<a class="nav-link" href="#">Журнал</a>
 					  </li>
 					</ul>
-					<a class="nav-link" href="#">Войти</a>
+					<a class="nav-link" href="#">{{nickname}}</a>
+					<button class="btn btn-link" onclick="exit()"><img src="images/login.png" alt="выход"></button>		
 				  </div>
 	</nav>
-	<div class="container">
-		<h1>Панель администратора</h1>
-		<h5>Все таблицы.</h5>
+	
+		<div class="container-fluid">
+			<h1>Панель администратора</h1>
+			
+				<div class="btn-group btn-group-toggle">
+						<label class="btn btn-primary" :class="{active: picked==1}">
+						<input type="radio" id="one" value="1" v-model="picked" checked> Пансионат
+						</label>
+						<label class="btn btn-primary" :class="{active: picked==2}">
+						<input type="radio" v-model="picked" value="2"> Аккаунты
+						</label>
+				</div>				
+				
+			<div class="row" v-if="picked==1">
+				<!-- Таблица номеров -->
+				<div class="col-sm">
+						<h3>Номера</h3>
+						<table class="table table-bordered">
+								<thead class="thead-light">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Номер комнаты</th>
+									<th scope="col">Корпус</th>
+									<th scope="col">Тип комнаты</th>
+									<th scope="col">Статус комнаты</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>10</td>
+									<td>Б</td>
+									<td>Люкс</td>
+									<td>
+										Занят
+										<!--<a onclick="exit()"><img src="images/pencil.png" alt="выход"></a>
+										<a onclick="exit()"><img src="images/trash.png" alt="выход"></a>-->	
+									</td>
+									
+								</tr>
+								</tbody>
+							</table>
+				</div>
+				<!-- Таблица корпусов -->
+				<div class="col-sm">
+						<h3>Корпуса</h3>
+						<table class="table table-bordered">
+								<thead class="thead-light">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Название корпуса</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>А</td>
+								</tr>
+								</tbody>
+							</table>
+				</div>
+				<!-- Таблица статусов -->
+				<div class="col-sm">
+						<h3>Статусы</h3>
+						<table class="table table-bordered">
+								<thead class="thead-light">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Название статуса</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>Свободно</td>
+								</tr>
+								</tbody>
+							</table>
+				</div>
+				<!-- Таблица типов номеров -->
+				<div class="col-sm">
+						<h3>Типы номеров</h3>
+						<table class="table table-bordered">
+								<thead class="thead-light">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Тип</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<th scope="row">1</th>
+									<td>Люкс</td>
+								</tr>
+								</tbody>
+							</table>
+				</div>
+			</div>
+			<div class="row" v-if="picked==2">
+					<!-- Таблица аккаунтов -->
+					<div class="col-sm">
+							<h3>Аккаунты</h3>
+							<table class="table table-bordered">
+									<thead class="thead-light">
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Логин</th>
+										<th scope="col">Пароль</th>
+										<th scope="col">Роль</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>N0mi</td>
+										<td>qwerty</td>
+										<td>Админ</td>										
+									</tr>
+									</tbody>
+								</table>
+					</div>
+					<!-- Таблица корпусов -->
+					<div class="col-sm">
+							<h3>Корпуса</h3>
+							<table class="table table-bordered">
+									<thead class="thead-light">
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Название корпуса</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>А</td>
+									</tr>
+									</tbody>
+								</table>
+					</div>
+					<!-- Таблица статусов -->
+					<div class="col-sm">
+							<h3>Статусы</h3>
+							<table class="table table-bordered">
+									<thead class="thead-light">
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Название статуса</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>Свободно</td>
+									</tr>
+									</tbody>
+								</table>
+					</div>
+					
+		</div>		
 	</div>
-
+	<script type="text/javascript">
+		var a = new Vue({
+			el: '#app',
+			data () { return {
+				nickname: "N0mi",
+				selector: true,
+				picked: '1'
+			}}
+		})
+	</script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
