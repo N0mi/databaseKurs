@@ -22,6 +22,7 @@ def index():
 
 @app.route('/admin/')
 def adPanel():
+    #dbc.test_method()
     return render_template('adminPanel.html')
 
 

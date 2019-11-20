@@ -33,16 +33,22 @@
 	</nav>
 	
 		<div class="container-fluid">
-			<h1>Панель администратора</h1>
-			
-				<div class="btn-group btn-group-toggle">
+			<div class="row">
+				<div class="col-10">
+					<h1>Панель администратора</h1>
+				</div>
+				<div class="col-2 pt-2">
+
+					<div class="btn-group btn-group-toggle">
 						<label class="btn btn-primary" :class="{active: picked==1}">
 						<input type="radio" id="one" value="1" v-model="picked" checked> Пансионат
 						</label>
 						<label class="btn btn-primary" :class="{active: picked==2}">
 						<input type="radio" v-model="picked" value="2"> Аккаунты
 						</label>
-				</div>				
+				</div>
+				</div>
+			</div>
 				
 			<div class="row" v-if="picked==1">
 				<!-- Таблица номеров -->

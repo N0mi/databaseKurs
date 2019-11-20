@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, exc
 
 engine = create_engine('postgresql+psycopg2://postgres:root@localhost/pansionat')
 
@@ -12,9 +12,9 @@ def show_table(name_table):
     return result
 
 
-def add_room(id_status, id_type, id_corp):
-    result = engine.execute("INSERT INTO rooms(id_status, id_type, id_corp)"
-                            " VALUES ('%s', '%s', '%s');" % (id_status, id_type, id_corp))
+def add_room(id_status, id_type, id_corp, num_room):
+    result = engine.execute("INSERT INTO rooms(id_status, id_type, id_corp, num_room)"
+                            " VALUES ('%s', '%s', '%s', '%s');" % (id_status, id_type, id_corp, num_room))
     return "Success"
 
 
@@ -52,7 +52,11 @@ def delete_corp(id_corp):
 
 
 def delete_room(id_room):
-    pass
+    try:
+        result = engine.execute('CALL delete_corp(1);')
+        print("Успешно")
+    except exc.IntegrityError as e:
+        print("Невозможно удалить статус. Удалить комнаты сэтим статусом?")
 
 
 def delete_request(id_request):
@@ -64,4 +68,8 @@ def delete_type_rooms(id_corp):
 
 
 def delete_status(id_status):
+    pass
+
+
+def test_method():
     pass
