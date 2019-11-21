@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div id="app">
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="/">Пансионат "Ласточка"</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -27,11 +27,29 @@
 							<a class="nav-link" href="/journal/">Журнал</a>
 					  </li>
 					</ul>
-					<a class="nav-link" href="#">{{nickname}}</a>
+					<a class="nav-link" href="/personal/">{{nickname}}</a>
 					<a onclick="exit()"><img src="%% url_for('static', filename='img/login.png') %%" alt="выход"></a>
 				  </div>
 	</nav>
-	
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Редактирование</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<h5>Невозможно удалить статус. Удалить комнаты сэтим статусом?</h5>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+				<button type="button" class="btn btn-primary">Да</button>
+			  </div>
+			</div>
+		  </div>
+	</div>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-10">
@@ -52,7 +70,7 @@
 				
 			<div class="row" v-if="picked==1">
 				<!-- Таблица номеров -->
-				<div class="col-sm">
+				<div class="col-lg-">
 						<h3>Номера</h3>
 						<table class="table table-bordered">
 								<thead class="thead-light">
@@ -72,8 +90,8 @@
 									<td>Люкс</td>
 									<td>
 										Занят
-										<!--<a onclick="exit()"><img src="images/pencil.png" alt="выход"></a>
-										<a onclick="exit()"><img src="images/trash.png" alt="выход"></a>-->	
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
 									</td>
 									
 								</tr>
@@ -186,7 +204,7 @@
 					</div>
 					<!-- Таблица статусов -->
 					<div class="col-sm">
-							<h3>Статусы</h3>
+							<h3>Билеты</h3>
 							<table class="table table-bordered">
 									<thead class="thead-light">
 									<tr>
@@ -202,16 +220,16 @@
 									</tbody>
 								</table>
 					</div>
-					
-		</div>		
-	</div>
+			</div>
+		</div>
+	</div>>
 	<script type="text/javascript">
 		var a = new Vue({
 			el: '#app',
 			data () { return {
 				nickname: "N0mi",
 				selector: true,
-				picked: '2'
+				picked: '1'
 			}}
 		})
 	</script>

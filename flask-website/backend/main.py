@@ -2,6 +2,7 @@ from flask import Flask, render_template, abort, redirect, url_for, session
 import dbcontroller as dbc
 import os
 
+
 class CustomFlask(Flask):
     jinja_options = Flask.jinja_options.copy()
     jinja_options.update(dict(
@@ -22,7 +23,7 @@ def index():
 
 @app.route('/admin/')
 def adPanel():
-    #dbc.test_method()
+    # dbc.test_method()
     return render_template('adminPanel.html')
 
 
@@ -34,6 +35,11 @@ def journal():
 @app.route('/login/')
 def login():
     return render_template('login.html')
+
+
+@app.route('/personal/')
+def personal_area():
+    return render_template('personalArea.html')
 
 
 @app.errorhandler(404)
