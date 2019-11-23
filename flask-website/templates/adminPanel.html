@@ -27,8 +27,8 @@
 							<a class="nav-link" href="/journal/">Журнал</a>
 					  </li>
 					</ul>
-					<a class="nav-link" href="/personal/">{{nickname}}</a>
-					<a onclick="exit()"><img src="%% url_for('static', filename='img/login.png') %%" alt="выход"></a>
+					<a class="nav-link" href="/personal/">%%username%%</a>
+					<a href="/exit/"><img src="%% url_for('static', filename='img/login.png') %%" alt="выход"></a>
 				  </div>
 	</nav>
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -222,7 +222,7 @@
 					</div>
 			</div>
 		</div>
-	</div>>
+	</div>
 	<script type="text/javascript">
 		var a = new Vue({
 			el: '#app',

@@ -14,15 +14,21 @@
 			  </button>
 			  <div class="collapse navbar-collapse" id="navbarText">
 				<ul class="navbar-nav mr-auto">
-				  <!--Строки в шапку-->
+				   <li class="nav-item active">
+						<a class="nav-link" href="/admin/">Админ. панель</a>
+                   </li>
+					<li class="nav-item active">
+							<a class="nav-link" href="/journal/">Журнал</a>
+					</li>
 				</ul>
-
+                <a class="nav-link" href="/personal/">%%username%%</a>
+                <a href="/exit/"><img src="%% url_for('static', filename='img/login.png') %%" alt="выход"></a>
 			  </div>
 	</nav>
 	<div class="container-fluid">
 		<h1>Личный кабинет</h1>
 		<div class="row">
-			<div class="col-6">
+			<div class="col-8">
 				<h4>Ваши билеты</h4>
 				<table class="table table-bordered">
 					<thead class="thead-light">
@@ -46,15 +52,18 @@
 						<td>Люкс</td>
 						<td>01.12.2019</td>
 						<td>10 дней</td>
-						<td>2200 руб</td>
+						<td>
+                            2200 руб <a onclick="exit()"><img src="%% url_for('static', filename='img/plus.png') %%" alt="выход"></a>
+                        </td>
 						
 					</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="col-6">
+			<div class="col-4">
 				<h4>Настройки профиля</h4>
-				<h5>Смена пароля</h5>
+                <h5>Логин: %%username%%</h5>
+				<button class="btn btn-primary">Сменить пароль</button>
 			</div>
 		</div>
 	</div>

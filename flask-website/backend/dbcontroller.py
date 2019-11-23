@@ -7,9 +7,14 @@ engine = create_engine('postgresql+psycopg2://postgres:root@localhost/pansionat'
 
 def show_table(name_table):
     result = engine.execute("SELECT * FROM %s;" % name_table)
-    for row in result:
-        print(row)
     return result
+
+
+def show_role(id_user):
+    result = engine.execute("SELECT id_user, id_role FROM users WHERE id_user = %s;" % id_user)
+    user_role = result.fetchone()['id_role']
+
+    return user_role
 
 
 def add_room(id_status, id_type, id_corp, num_room):
