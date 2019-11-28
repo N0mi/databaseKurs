@@ -12,25 +12,28 @@
 	</script>
 </head>
 <body>
-	<div id="app">
+
+	<div id="appNav">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="/">Пансионат "Ласточка"</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			 </button>
-				  <div class="collapse navbar-collapse" id="navbarText">
-					<ul class="navbar-nav mr-auto">
-					  <li class="nav-item active">
-						<a class="nav-link" href="/admin/">Админ. панель</a>
-					  </li>
-					  <li class="nav-item active">
-							<a class="nav-link" href="/journal/">Журнал</a>
-					  </li>
-					</ul>
-					<a class="nav-link" href="/personal/">%%username%%</a>
-					<a href="/exit/"><img src="%% url_for('static', filename='img/login.png') %%" alt="выход"></a>
-				  </div>
-	</nav>
+				<a class="navbar-brand" href="/">Пансионат "Ласточка"</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					  </button>
+					  <div class="collapse navbar-collapse" id="navbarText">
+						<ul class="navbar-nav mr-auto">
+						  <li class="nav-item active" v-if="level >= 3">
+							<a class="nav-link" href="/admin/">Админ. панель</a>
+						  </li>
+						  <li class="nav-item active" v-if="level >= 2">
+								<a class="nav-link" href="/journal/">Журнал</a>
+						  </li>
+						</ul>
+				<a class="nav-link" href="/personal/">%%session['username']%%</a>
+                <a href="/exit/"><img src="%% url_for('static', filename='img/login.png') %%" alt="выход"></a>
+					  </div>
+			</nav>
+	</div>
+	<div id="app">
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -70,84 +73,105 @@
 				
 			<div class="row" v-if="picked==1">
 				<!-- Таблица номеров -->
-				<div class="col-lg-">
+				<div class="col-lg-4">
 						<h3>Номера</h3>
-						<table class="table table-bordered">
+						<table class="table table-bordered" >
 								<thead class="thead-light">
 								<tr>
+									<th scope="col"></th>
 									<th scope="col">#</th>
-									<th scope="col">Номер комнаты</th>
+									<th scope="col">Номер</th>
 									<th scope="col">Корпус</th>
-									<th scope="col">Тип комнаты</th>
-									<th scope="col">Статус комнаты</th>
+									<th scope="col">Тип</th>
+									<th scope="col">Статус</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>10</td>
-									<td>Б</td>
-									<td>Люкс</td>
-									<td>
-										Занят
+								<tr v-for="room in rooms">
+									<th>
 										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
 										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
-									</td>
+									</th>
+									<th scope="row">{{room.id_room}}</th>
+									<td>{{room.num_room}}</td>
+									<td>{{room.corp_room}}</td>
+									<td>{{room.type_room}}</td>
+									<td>{{room.status_room}}</td>
 									
 								</tr>
 								</tbody>
 							</table>
 				</div>
+				<!-- Таблица типов комнат -->
+				<div class="col-lg-4">
+						<h3>Типы комнат</h3>
+						<table class="table table-bordered">
+								<thead class="thead-light">
+								<tr>
+									<th></th>
+									<th scope="col">#</th>
+									<th scope="col">Тип</th>
+									<th scope="col">Кол-во мест</th>
+									<th scope="col">Цена</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr v-for="type in type_rooms">
+									<th>
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+									</th>
+									<th scope="row">{{type.id_type}}</th>
+									<td>{{type.name_type}}</td>
+									<td>{{type.place_amount}}</td>
+									<td>{{type.price}}</td>
+								</tr>
+								</tbody>
+							</table>
+				</div>
+
 				<!-- Таблица корпусов -->
-				<div class="col-sm">
+				<div class="col-auto">
 						<h3>Корпуса</h3>
 						<table class="table table-bordered">
 								<thead class="thead-light">
 								<tr>
+									<th scope="col"></th>
 									<th scope="col">#</th>
-									<th scope="col">Название корпуса</th>
+									<th scope="col">Название</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>А</td>
+								<tr v-for="corp in corps">
+									<th>
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+									</th>
+									<th scope="row">{{corp.id_corp}}</th>
+									<td>{{corp.name_corp}}</td>
 								</tr>
 								</tbody>
 							</table>
 				</div>
 				<!-- Таблица статусов -->
-				<div class="col-sm">
+				<div class="col-sm-">
 						<h3>Статусы</h3>
 						<table class="table table-bordered">
 								<thead class="thead-light">
 								<tr>
+									<th></th>
 									<th scope="col">#</th>
-									<th scope="col">Название статуса</th>
+									<th scope="col">Название</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>Свободно</td>
-								</tr>
-								</tbody>
-							</table>
-				</div>
-				<!-- Таблица типов номеров -->
-				<div class="col-sm">
-						<h3>Типы номеров</h3>
-						<table class="table table-bordered">
-								<thead class="thead-light">
-								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Тип</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>Люкс</td>
+								<tr v-for="status in statuses">
+									<th>
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
+										<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+									</th>
+									<th scope="row">{{status.id_status}}</th>
+									<td>{{status.name_status}}</td>
 								</tr>
 								</tbody>
 							</table>
@@ -160,6 +184,7 @@
 							<table class="table table-bordered">
 									<thead class="thead-light">
 									<tr>
+										<th></th>
 										<th scope="col">#</th>
 										<th scope="col">Логин</th>
 										<th scope="col">Пароль</th>
@@ -167,55 +192,61 @@
 									</tr>
 									</thead>
 									<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td>N0mi</td>
-										<td>qwerty</td>
-										<td>Админ</td>										
+									<tr v-for="user in users">
+										<th>
+											<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
+											<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+										</th>
+										<th scope="row">{{user.id_user}}</th>
+										<td>{{user.login}}</td>
+										<td>{{user.pass}}</td>
+										<td>{{user.role}}</td>										
 									</tr>
 									</tbody>
 								</table>
 					</div>
-					<!-- Таблица корпусов -->
+					<!-- Таблица ролей -->
 					<div class="col-sm">
 							<h3>Роли</h3>
 							<table class="table table-bordered">
 									<thead class="thead-light">
 											<tr>
+												<th></th>
 												<th scope="col">#</th>
-												<th scope="col">Название корпуса</th>
+												<th scope="col">Название</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<th scope="row">1</th>
-												<td>Админ</td>
-											</tr>
-											<tr>
-												<th scope="row">2</th>
-												<td>Сотрудник</td>
-											</tr>
-											<tr>
-												<th scope="row">3</th>
-												<td>Покупатель</td>
+											<tr v-for="role in roles">
+												<th>
+													<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
+													<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+												</th>
+												<th scope="row">{{role.id_role}}</th>
+												<td>{{role.name_role}}</td>
 											</tr>
 										</tbody>
 								</table>
 					</div>
-					<!-- Таблица статусов -->
+					<!-- Таблица билетов -->
 					<div class="col-sm">
 							<h3>Билеты</h3>
 							<table class="table table-bordered">
 									<thead class="thead-light">
 									<tr>
+										<th></th>
 										<th scope="col">#</th>
-										<th scope="col">Название статуса</th>
+										<th scope="col">id Покупателя</th>
 									</tr>
 									</thead>
 									<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td>Свободно</td>
+									<tr v-for="ticket in tickets">
+										<th>
+											<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
+											<a data-toggle="modal" data-target="#exampleModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+										</th>
+										<th scope="row">{{ticket.id_ticket}}</th>
+										<td>{{ticket.id_user}}</td
 									</tr>
 									</tbody>
 								</table>
@@ -224,14 +255,173 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var a = new Vue({
+		let a = new Vue({
 			el: '#app',
 			data () { return {
-				nickname: "N0mi",
+				nickname: 'N0mi',
 				selector: true,
-				picked: '1'
-			}}
+				picked: '1',
+				rooms: [{
+						id_room:'1',
+						num_room:'101',
+						corp_room: 'Б',
+						type_room:'Люкс',
+						status_room:'Свободна'
+					}],
+				statuses: [{
+						id_status:'1',
+						name_status:'Свободна'
+					}],
+				users: [{
+						id_user:'1',
+						login:'admin',
+						pass:'admin',
+						role:'Администратор'
+					}],
+				corps: [{
+						id_corp:'1',
+						name_corp:'Свободна'
+					}],
+				roles: [{
+						id_role:'1',
+						name_role:'Администратор'
+					}],
+				type_rooms: [{
+						id_type:'1',
+						name_type:'Люкс',
+						place_amount: '',
+						price: '',
+					}],
+				tickets: [{
+						id_ticket:'1',
+						id_user:'21'
+					}]			
+			}},
+			methods: {
+				addRoomModel: function(id, num, corp, type, status){
+				},
+
+				ReloadAllModel: function(){
+					a.PrintRooms();
+					a.PrintStatuses();
+					a.PrintCorps();
+					a.PrintTypes();
+					a.PrintTicket();
+					a.PrintRoles();
+					a.PrintUsers();
+				},
+
+				PrintRooms: async function() {
+					this.rooms.splice(0);
+					result = await this.ServerModel('rooms');
+					for (let i = 0; i < result.length; i++){
+							this.rooms.push({
+								id_room: result[i].id_room,
+								num_room: result[i].num_room,
+								corp_room: result[i].id_corp,
+								type_room: result[i].id_type,
+								status_room: result[i].id_status
+					})
+					}
+				},
+
+				PrintStatuses: async function() {
+					this.statuses.splice(0);
+					result = await this.ServerModel('statuses');
+					for (let i = 0; i < result.length; i++){
+							this.statuses.push({
+								id_status: result[i].id_status,
+								name_status: result[i].name_status,
+					})
+					}
+				},
+
+				PrintCorps: async function() {
+					this.corps.splice(0);
+					result = await this.ServerModel('corps');
+					for (let i = 0; i < result.length; i++){
+							this.corps.push({
+								id_corp: result[i].id_corp,
+								name_corp: result[i].name_corp,
+					})
+					}
+				},
+
+				PrintTypes: async function() {
+					this.type_rooms.splice(0);
+					result = await this.ServerModel('type_rooms');
+					for (let i = 0; i < result.length; i++){
+							this.type_rooms.push({
+								id_type: result[i].id_type,
+								name_type: result[i].name_type,
+								place_amount: result[i].place_amount,
+								price: result[i].price
+					})
+					}
+				},
+
+				PrintTicket: async function() {
+					this.tickets.splice(0);
+					result = await this.ServerModel('tickets');
+					for (let i = 0; i < result.length; i++){
+							this.tickets.push({
+								id_ticket: result[i].id_ticket,
+								id_user: result[i].id_user,
+					})
+					}
+				},
+
+
+				PrintRoles: async function() {
+					this.roles.splice(0);
+					result = await this.ServerModel('roles');
+					for (let i = 0; i < result.length; i++){
+							this.roles.push({
+								id_role: result[i].id_role,
+								name_role: result[i].name_role,
+					})
+					}
+				},
+
+				PrintUsers: async function() {
+					this.users.splice(0);
+					result = await this.ServerModel('users');
+					for (let i = 0; i < result.length; i++){
+							this.users.push({
+								id_user: result[i].id_user,
+								login: result[i].login,
+								pass: result[i].pass,
+								role: result[i].id_role
+					})
+					}
+				},
+
+				ServerModel: async function(name_table){
+					let response = await fetch('/take_model/'+name_table)
+					if(response.ok)
+						{
+							let result = await response.json();
+							return result;
+						}	
+				}
+			}
 		})
+
+		let nav = new Vue({
+			el: '#appNav',
+			data: {
+				level: 0
+			},
+			created:async function() {
+					a.ReloadAllModel();
+					let response = await fetch('/take_level/')
+					if(response.ok)
+						{
+							let result = await response.json();
+							this.level = result.message;
+						}					
+				}
+			})
 	</script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

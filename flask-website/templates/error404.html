@@ -2,9 +2,11 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 	<title>Ошибка 404</title>
 </head>
 <body>
+	<div id="appNav">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="/">Пансионат "Ласточка"</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,16 +14,41 @@
 					  </button>
 					  <div class="collapse navbar-collapse" id="navbarText">
 						<ul class="navbar-nav mr-auto">
-						  <li class="nav-item active">
-							<a class="nav-link" href="#">О нас</a>
+						  <li class="nav-item active" v-if="level >= 3">
+							<a class="nav-link" href="/admin/">Админ. панель</a>
+						  </li>
+						  <li class="nav-item active" v-if="level >= 2">
+								<a class="nav-link" href="/journal/">Журнал</a>
 						  </li>
 						</ul>
+							<template v-if="level !=0">
+								<a class="nav-link" href="/personal/">%%session['username']%%</a>
+                				<a href="/exit/"><img src="%% url_for('static', filename='img/login.png') %%" alt="выход"></a>
+                			</template>
 					  </div>
 			</nav>
+	</div>
 	<div class="container margin:auto">
 		<h1>Ошибка 404</h1>
 		<h5>Такой страницы не существует</h5>
 	</div>
+
+	<script type="text/javascript">
+		nav = new Vue({
+			el: '#appNav',
+			data: {
+				level: 0
+			},
+			created:async function() {
+					let response = await fetch('/take_level/')
+					if(response.ok)
+						{
+							let result = await response.json();
+							this.level = result.message;
+						}					
+				}
+			})
+	</script>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
