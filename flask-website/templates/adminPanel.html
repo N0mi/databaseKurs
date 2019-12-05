@@ -4,12 +4,6 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 	<title>Админ. панель</title>
-	<script>
-			function exit() {
-				alert("Выход!");
-			}
-			 
-	</script>
 </head>
 <body>
 
@@ -38,17 +32,17 @@
 		  <div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Редактирование</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Потеря данных!!!</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				  <span aria-hidden="true">&times;</span>
 				</button>
 			  </div>
 			  <div class="modal-body">
-				<h5>Невозможно удалить статус. Удалить комнаты с этим статусом?</h5>
+				<h5>Строка связанна с другой таблицей. Согласны на каскадное удаление?</h5>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-				<button type="button" class="btn btn-primary">Да</button>
+				<button type="button" class="btn btn-primary" @click="DeleteElement(DeleteId, DeleteNameObject, 1)">Да</button>
 			  </div>
 			</div>
 		  </div>
@@ -58,7 +52,7 @@
 			<div class="modal-content">
 			  <div class="modal-header">
 				<h5 class="modal-title" id="changeModalLabel">{{modalOperation[modalIdOperation]+' '+modalName[modalIdName]}}</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" data-dismiss="modal" @click="ClearFields" aria-label="Close">
 				  <span aria-hidden="true">&times;</span>
 				</button>
 			  </div>
@@ -143,6 +137,10 @@
 				</form>
 				<!-----------------------------Добавление билета------------------------------------->
 				<form v-if="modalIdName == 6">
+					<div class="form-group">
+						<label for="userIdField">id Пользователя</label>
+						<input type="number" class="form-control" id="userIdField" v-model="formFields[0].field">
+					</div>
 				</form>
 			  </div>
 			  <div class="modal-footer">
@@ -215,10 +213,10 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr v-for="type in type_rooms">
+								<tr v-for="(type, index) in type_rooms">
 									<th>
-										<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
-										<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+										<a @click="changeModalEvent(0,1, index)"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="редактирование"></a>
+										<a @click="DeleteElement(type.id_type, 'type')"><img src="%% url_for('static', filename='img/trash.png') %%" alt="удаление"></a>
 									</th>
 									<th scope="row">{{type.id_type}}</th>
 									<td>{{type.name_type}}</td>
@@ -241,10 +239,10 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr v-for="corp in corps">
+								<tr v-for="(corp, index) in corps">
 									<th>
-										<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
-										<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+										<a @click="changeModalEvent(0,2, index)"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="редактирование"></a>
+										<a @click="DeleteElement(corp.id_corp, 'corp')"><img src="%% url_for('static', filename='img/trash.png') %%" alt="удаление"></a>
 									</th>
 									<th scope="row">{{corp.id_corp}}</th>
 									<td>{{corp.name_corp}}</td>
@@ -264,10 +262,10 @@
 								</tr>
 								</thead>
 								<tbody>
-								<tr v-for="status in statuses">
+								<tr v-for="(status, index) in statuses">
 									<th>
-										<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
-										<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+										<a @click="changeModalEvent(0,3, index)"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="редактирование"></a>
+										<a @click="DeleteElement(status.id_status, 'status')"><img src="%% url_for('static', filename='img/trash.png') %%" alt="удаление"></a>
 									</th>
 									<th scope="row">{{status.id_status}}</th>
 									<td>{{status.name_status}}</td>
@@ -291,10 +289,10 @@
 									</tr>
 									</thead>
 									<tbody>
-									<tr v-for="user in users">
+									<tr v-for="(user,index) in users">
 										<th>
-											<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
-											<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+											<a @click="changeModalEvent(0,4, index)"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="редактирование"></a>
+											<a @click="DeleteElement(user.id_user, 'user')"><img src="%% url_for('static', filename='img/trash.png') %%" alt="удаление"></a>
 										</th>
 										<th scope="row">{{user.id_user}}</th>
 										<td>{{user.login}}</td>
@@ -317,10 +315,10 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr v-for="role in roles">
+											<tr v-for="(role,index) in roles">
 												<th>
-													<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
-													<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+													<a @click="changeModalEvent(0,5, index)"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="редактирование"></a>
+													<a @click="DeleteElement(role.id_role, 'role')"><img src="%% url_for('static', filename='img/trash.png') %%" alt="удаление"></a>
 												</th>
 												<th scope="row">{{role.id_role}}</th>
 												<td>{{role.name_role}}</td>
@@ -341,10 +339,10 @@
 									</tr>
 									</thead>
 									<tbody>
-									<tr v-for="ticket in tickets">
+									<tr v-for="(ticket,index) in tickets">
 										<th>
-											<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="выход"></a>
-											<a data-toggle="modal" data-target="#deleteModal"><img src="%% url_for('static', filename='img/trash.png') %%" alt="выход"></a>
+											<a @click="changeModalEvent(0,6, index)"><img src="%% url_for('static', filename='img/pencil.png') %%" alt="редактирование"></a>
+											<a @click="DeleteElement(ticket.id_ticket, 'ticket')"><img src="%% url_for('static', filename='img/trash.png') %%" alt="удаление"></a>
 										</th>
 										<th scope="row">{{ticket.id_ticket}}</th>
 										<td>{{ticket.id_user}}</td>
@@ -367,6 +365,8 @@
 				modalName: ['номера','типа','корпуса','статуса', 'пользователя','роли','билета'],
 				modalOperation: ['Редактирование','Добавление'],
 				modalNameBtn: ['Обновить','Добавить'],
+				DeleteId: 0,
+				DeleteNameObject: '',
 				formFields: [
 						{field:''},
 						{field:''},
@@ -430,6 +430,35 @@
 																	this.rooms[index].amount_room);
 							this.formFields[3].field = this.rooms[index].id_room;
 							break;
+						case 1:
+							this.formFields[0].field = this.type_rooms[index].name_type;
+							this.formFields[1].field = this.type_rooms[index].place_amount;
+							this.formFields[2].field = this.type_rooms[index].price;
+							this.formFields[3].field = this.type_rooms[index].id_type;
+							break;
+						case 2:
+							this.formFields[0].field = this.corps[index].name_corp;
+							this.formFields[1].field = this.corps[index].id_corp;
+							break;
+						case 3:
+							this.formFields[0].field = this.statuses[index].name_status;
+							this.formFields[1].field = this.statuses[index].id_status;
+							break;
+						case 4:
+							this.formFields[0].field = this.users[index].login;
+							this.formFields[1].field = this.users[index].pass;
+							this.formFields[2].field = this.findIdRole(this.users[index].role);
+							this.formFields[3].field = this.users[index].id_user;
+							break;
+						case 5:
+							this.formFields[0].field = this.roles[index].name_role;
+							this.formFields[1].field = this.roles[index].level_role;
+							this.formFields[2].field = this.roles[index].id_role;
+							break;
+						case 6:
+							this.formFields[0].field = this.tickets[index].id_user;
+							this.formFields[1].field = this.tickets[index].id_ticket;
+							break;
 						default: break;
 					}
 				},
@@ -451,10 +480,24 @@
 					return 0;
 				},
 
+				findIdRole: function(name){
+					for(let i = 0; i<this.roles.length; i++){
+						if(this.roles[i].name_role == name) return this.roles[i].id_role;
+					}
+					console.log("Роль не найдена");
+					return 0;
+				},
+
 				CreateQuery: function(){
 					if(this.modalIdOperation == 0){ //Update
 						switch(this.modalIdName){
 							case 0: this.UpdateRoom();break;
+							case 1: this.UpdateType();break;
+							case 2: this.UpdateCorp();break;
+							case 3: this.UpdateStatus();break;
+							case 4: this.UpdateUser();break;
+							case 5: this.UpdateRole();break;
+							case 6: this.UpdateTicket();break;
 							default: break;
 						}
 					};
@@ -530,7 +573,7 @@
 				},
 
 
-				UpdateRoom: function(index_room){
+				UpdateRoom: function(){
 					let data = {
 						num: this.formFields[0].field,
 						corp: this.formFields[1].field,
@@ -540,12 +583,69 @@
 					a.SendData('update','room',data)
 				},
 
-				DeleteElement: function(id_el, name_object){
-					console.log(id_el);
+				UpdateType: function(){
 					let data = {
-						id: id_el
+						name: this.formFields[0].field,
+						amount: this.formFields[1].field,
+						price: this.formFields[2].field,
+						id: this.formFields[3].field
 					}
-					a.SendData('delete', name_object,data)
+					a.SendData('update','type',data)
+				},
+
+				UpdateCorp: function(){
+					let data = {
+						name: this.formFields[0].field,
+						id: this.formFields[1].field
+					}
+					a.SendData('update','corp',data)
+				},
+
+				UpdateStatus: function(){
+					let data = {
+						name: this.formFields[0].field,
+						id: this.formFields[1].field
+					}
+					a.SendData('update','status',data)
+				},
+
+				UpdateUser: function(){
+					let data = {
+						login: this.formFields[0].field,
+						pass: this.formFields[1].field,
+						role: this.formFields[2].field,
+						id: this.formFields[3].field
+					}
+					a.SendData('update','user',data)
+				},
+
+				UpdateRole: function(){
+					let data = {
+						name: this.formFields[0].field,
+						level: this.formFields[1].field,
+						id: this.formFields[2].field
+					}
+					a.SendData('update','role',data)
+				},
+
+				UpdateTicket: function(){
+					let data = {
+						user: this.formFields[0].field,
+						id: this.formFields[1].field
+					}
+					a.SendData('update','ticket',data)
+				},
+
+				DeleteElement:async function(id_el, name_object, deleteRel=0){
+					$('#deleteModal').modal('hide');
+					let data = {
+						id: id_el,
+						cascade: deleteRel
+					}
+					this.DeleteId = id_el;
+					this.DeleteNameObject = name_object;
+					result = await a.SendData('delete', name_object,data)
+					if(result.message == 'false')$('#deleteModal').modal('show');
 				},
 
 				SendData: async function(name_operation, name_object, data){

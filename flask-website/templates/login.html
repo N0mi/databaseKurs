@@ -57,10 +57,10 @@
 
 		<div class="row">
 			<div class="col">
-			<button type="button" class="btn btn-outline-secondary" onclick="postreq();return false;">Зарегистрироваться</button>
+			<button type="button" class="btn btn-outline-secondary" @click="registr">Зарегистрироваться</button>
 			</div>
 			<div class="col">
-			<button type="button" class="btn btn-block btn-primary" v-on:click="sendData">Войти</button>
+			<button type="button" class="btn btn-block btn-primary" @click="sendData">Войти</button>
 			</div>
 		</div>
 		<div class="row pt-4" v-if="error">
@@ -83,7 +83,24 @@
 				error: false
 			},
 			methods:{
-				async sendData() {
+				registr: async function(){
+					let user = {
+						login: this.login,
+						pass: this.pass,
+						role: 2
+					}
+					let response = await fetch('/registration/',{
+						method: 'POST',
+						headers: {
+    						'Content-Type': 'application/json;charset=utf-8'
+  						},
+						body: JSON.stringify(user)
+						});
+					let result = await response.json();
+					if(result.message == "true") this.sendData();
+					},
+					
+				sendData: async function() {
 					let user = {
 						login: this.login,
 						pass: this.pass
@@ -103,9 +120,8 @@
 					}
 					else {
 						this.error = true;
-						console.log("Нет такого аккаунта")
-					}
-					
+						console.log("Нет такого аккаунта");
+					}					
 				}
 			}
 		})

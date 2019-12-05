@@ -28,72 +28,64 @@
 			</nav>
 	</div>
 	<div id="app">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-2"></div>
-			<div class="col-sm-7">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-7">
 				
+				</div>
 			</div>
 		</div>
-	</div>
 
 	
-	<form style="width: 500px; margin:auto;" class="pt-5">
-		
-		<h5>Заказ номера</h5>
+		<form style="width: 500px; margin:auto;" class="pt-5">
+			
+			<h5>Заказ номера</h5>
 
-		<div class="row pt-2">
-			<div class="col">
-				<div class="form-group">
-					<label for="dateStartField">Дата въезда</label><br>
-					<input type="date" class="form-control" id="dateStartField">
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
+			<div class="row pt-2">
 				<div class="col">
 					<div class="form-group">
-						<label for="dateEndField">Дата отъезда</label><br>
-						<input type="date" class="form-control" id="dateEndField">
-					</div>
-				</div>
-		</div>
-
-		<div class="row">
-				<div class="col">
-					<div class="form-group">
-						<label for="typeRoomField">Тип номера</label><br>
-						<select class="form-control" id="typeRoomField" placeholder="Выберите тип номера">
-								<option>Выберите тип комфорта</option>
-								<option>Люкс</option>
-								<option>Полулюкс</option>
-								<option>Бюджет</option>
-						</select>
+						<label for="dateStartField">Дата въезда</label><br>
+						<input type="date" class="form-control" id="dateStartField"
+						  v-bind:min="Now" max="2050-02-01" v-model="date_start" @change="CalcInterval">
 					</div>
 				</div>
 			</div>
 
-		<div class="row">
-				<div class="col">
-					<div class="form-group">
-						<label for="amountField">Количество человек</label><br>
-						<input type="number" class="form-control" id="amountField" placeholder="Введите количество человек">
+			<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label for="dateEndField">Дата отъезда</label><br>
+							<input type="date" class="form-control" id="dateEndField"
+							  v-bind:min="Now" max="2050-01-01" v-model="date_end" @change="CalcInterval">
+						</div>
 					</div>
-				</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<h5>Сумма: 1000 руб</h5>
 			</div>
 
-		</div>
-		<div class="row">
-			<div class="col">
-				<button type="submit" class="btn btn-block btn-primary">Купить билет</button>
+			<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label for="typeRoomField">Тип номера</label><br>
+							<select class="form-control" id="typeRoomField" placeholder="Выберите тип номера">
+									<option value="-1">Выберите тип номера</option>
+									<option v-for="type in type_rooms" v-bind:value="type.id_type">{{type.name_type}} на {{type.place_amount}} человек(а)</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+			<div class="row" v-if="price >= 0">
+				<div class="col">
+					<h5>Сумма: {{price}} руб</h5>
+				</div>
+
 			</div>
-		</div>
-	</form>
+			<div class="row">
+				<div class="col">
+					<button type="button" class="btn btn-block btn-primary" @click="BuyTicket">Купить билет</button>
+				</div>
+			</div>
+		</form>
 	</div>
 
 		<script type="text/javascript">
@@ -101,8 +93,81 @@
 			el: '#app',
 			data () { return {
 				nickname: "N0mi",
-				selector: true
-			}}
+				selector: true,
+				price: -1,
+				date_start: '',
+				date_end: '',
+				interval: -1,
+				id_type: -1,
+				Now: '',
+				type_rooms: [{
+						id_type:'1',
+						name_type:'Люкс',
+						place_amount: '',
+						price: '',
+					}]
+			}},
+			methods: {
+				SetNowDate: function(){
+					date = new Date();
+					yearNow = date.getFullYear();
+					monthNow = date.getMonth()+1;
+					dateNow = date.getDate();
+					if(monthNow < 10) monthNow = '0'+ monthNow;
+					if(dateNow < 10) dateNow = '0'+ dateNow; 
+					this.Now = yearNow+'-'+monthNow+'-'+dateNow
+				},
+
+				CalcInterval: function(){
+					if(this.date_start != '' && this.date_end != ''){
+						console.log("Calculate");
+					}
+				},
+
+				CalcPrice: function(){
+					if(this.date_start != '' && this.date_end != '' && this.id_type != -1){
+						console.log("Calculate price");
+					}
+				},
+
+				BuyTicket: async function(){
+					console.log("Покупка билета!")
+					let data = {
+						date_start: '',
+						date_end: ''
+					}
+					let response = await fetch('/buy_ticket/',{
+						method: 'POST',
+						headers: {
+    						'Content-Type': 'application/json;charset=utf-8'
+  						},
+						body: JSON.stringify(data)
+						});
+					let result = await response.json();
+				},
+
+				PrintTypes: async function() {
+					this.type_rooms.splice(0);
+					result = await this.ServerModel('type_rooms');
+					for (let i = 0; i < result.length; i++){
+							this.type_rooms.push({
+								id_type: result[i].id_type,
+								name_type: result[i].name_type,
+								place_amount: result[i].place_amount,
+								price: result[i].price
+							})
+					}
+				},
+
+				ServerModel: async function(name_table){
+					let response = await fetch('/take_model/'+name_table)
+					if(response.ok)
+						{
+							let result = await response.json();
+							return result;
+						}	
+				}
+			}
 		})
 		nav = new Vue({
 			el: '#appNav',
@@ -110,6 +175,8 @@
 				level: 0
 			},
 			created:async function() {
+					a.PrintTypes();
+					a.SetNowDate();
 					let response = await fetch('/take_level/')
 					if(response.ok)
 						{

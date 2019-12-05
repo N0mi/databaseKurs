@@ -1,6 +1,5 @@
 from flask import Flask, render_template, abort, redirect, url_for, session, request, jsonify
 import dbcontroller as dbc
-
 import os
 
 
@@ -33,6 +32,14 @@ def account_enter(_login, _pass):
             session['username'] = row['login']
             return True
     return False
+
+
+def create_request(id_user, data_start, data_end, id_type):
+    pass
+
+
+def data_change():
+    pass
 
 
 @app.route('/')
@@ -117,7 +124,21 @@ def add_to_model(name_object):
 @app.route('/delete/<name_object>', methods=['POST'])
 def delete_element(name_object):
     if name_object == "room":
-        dbc.delete_room(request.json['id'])
+        return jsonify(message=(dbc.delete_room(request.json['id'], request.json['cascade'])))
+    if name_object == "type":
+        return jsonify(message=(dbc.delete_type_rooms(request.json['id'], request.json['cascade'])))
+    if name_object == "corp":
+        return jsonify(message=(dbc.delete_corp(request.json['id'], request.json['cascade'])))
+    if name_object == "status":
+        return jsonify(message=(dbc.delete_status(request.json['id'], request.json['cascade'])))
+    if name_object == "user":
+        return jsonify(message=(dbc.delete_user(request.json['id'], request.json['cascade'])))
+    if name_object == "role":
+        return jsonify(message=(dbc.delete_role(request.json['id'], request.json['cascade'])))
+    if name_object == "ticket":
+        return jsonify(message=(dbc.delete_ticket(request.json['id'], request.json['cascade'])))
+    if name_object == "request":
+        return jsonify(message=(dbc.delete_request(request.json['id'], request.json['cascade'])))
 
     return jsonify(message="true")
 
@@ -125,9 +146,42 @@ def delete_element(name_object):
 @app.route('/update/<name_object>', methods=['POST'])
 def update_element(name_object):
     if name_object == "room":
-        print(str(request.json['num']),str(request.json['corp']),str(request.json['type']), str(request.json['id']))
-        dbc.update_room(request.json['id'],request.json['type'], request.json['corp'],request.json['num'])
+        # print(str(request.json['num']),str(request.json['corp']),str(request.json['type']), str(request.json['id']))
+        dbc.update_room(request.json['id'], request.json['type'], request.json['corp'], request.json['num'])
+    if name_object == "type":
+        dbc.update_type_rooms(request.json['id'], request.json['name'], request.json['amount'], request.json['price'])
+    if name_object == "corp":
+        dbc.update_corp(request.json['id'], request.json['name'])
+    if name_object == "status":
+        dbc.update_status(request.json['id'], request.json['name'])
+    if name_object == "user":
+        dbc.update_user(request.json['id'], request.json['login'], request.json['pass'], request.json['role'])
+    if name_object == "role":
+        dbc.update_role(request.json['id'], request.json['name'], request.json['level'])
+    if name_object == "ticket":
+        dbc.update_ticket(request.json['id'], request.json['user'])
+    if name_object == "request":
+        dbc.update_request(request.json['id'], request.json['room'], request.json['start'],
+                           request.json['end'], request.json['ticket'], request.json['status'])
+    return jsonify(message="true")
 
+
+@app.route('/buy_ticket/', methods=['POST'])
+def buy_ticket():
+    id_status = 2
+    id_room = dbc.find_room(request.json['id_type'], request.json['date_start'], request.json['date_end'])
+    if False:
+        dbc.add_ticket(session['id_user'])
+        id_ticket = dbc.show_table('tickets')[-1]['id_ticket']
+        # dbc.add_request(id_room, date_start, date_end, id_status, id_ticket)!!!!!!!!!!!
+        return jsonify(message="true")
+    else:
+        return jsonify(message="false")
+
+
+@app.route('/registration/', methods=['POST'])
+def registration():
+    dbc.add_user(request.json['login'], request.json['pass'], request.json['role'])
     return jsonify(message="true")
 
 
